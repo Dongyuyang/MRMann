@@ -1,5 +1,5 @@
-#include "../commonTool/common_tool.hpp"
 #include "Rtree.h"
+#include "ann.h"
 #include <cmath>
 
 std::vector<std::vector<double> > get_outer_square_mbr_sqrt_eight(const std::vector<std::vector<double> > &mbr)
@@ -42,13 +42,16 @@ bool is_point_in_mbr(const std::vector<double> &p, const std::vector<std::vector
   return true;
 }
 
-std::vector<int> expend(const std::vector<std::vector<double> > &mbr, bgi::rtree<Value, bgi::rstar<16> &rtree>, int counter)
+
+
+std::vector<int> expend(const std::vector<std::vector<double> > &mbr, bgi::rtree<Value, bgi::rstar<16> > &rtree, int counter)
 {
   int times = 0;
   std::vector<std::vector<double> > current_mbr = mbr;
+  std::vector<int> result_s;
   while(counter < 2){
     std::vector<std::vector<double> > expanded_mbr = get_outer_square_mbr_sqrt_eight(current_mbr);
-    std::vector<int> result_s = range_search(rtree,expended_mbr);
+    result_s = range_search(rtree,expanded_mbr);
     if(!result_s.empty())
       counter++;
     if(counter == 2)
@@ -57,31 +60,20 @@ std::vector<int> expend(const std::vector<std::vector<double> > &mbr, bgi::rtree
     times++;
   }
   std::cout << "expand " << times << " times!" << std::endl;
-}
-
-std::vector<int> shrink(const std::vector<std::vector<double> > &mbr, bgi::rtree<Value, bgi::rstar<16> &rtree>, const std::vector<int> &query_result, const std::vector<std::vector<double> > &points)
-{
-  int counter = 0;
-  std::vector<int> current_result = query_result;
-  auto current_mbr = get_inner_square_mbr_sqrt_eight(mbr);
-  for(auto node_id : current_result){
-    if(is_point_in_mbr(points[node_id],current_mbr)){
-      
-    }
-  }
+  return result_s;
 }
 
 int MRM_query(const std::vector<std::vector<double> > &points, std::vector<std::vector<double> > qs, bgi::rtree<Value, bgi::rstar<16> > &rtree)
 {
-  std::vector<std::vector<double> > mbr = get_mbr(qs);
+  std::vector<std::vector<double> > mbr = get_square_mbr(qs);
   std::vector<int> query_result;
   query_result = range_search(rtree,mbr);
-  if(query_result.empty()){ /*expand*/
-      
-      
-  }else{ /*shrink*/
-    
+  if(query_result.empty()){ /*expand 2*/
+    query_result = expend(mbr,rtree,2);
+  }else{ /*expande 1*/
+    query_result = expend(mbr,rtree,1);
   }
-    
-  }
+
+  int NN_id = naive_ann(query_result, qs, points, 1);
+  return NN_id;
 }
