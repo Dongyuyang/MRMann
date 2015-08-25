@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
   /*generate data points and query points*/
   //randinit(points,2,0,1);
   read_point_file(points, 2, "data/data2.ini");
-  randinit(qs,2,0.2,0.8);
+  randinit(qs,2,atof(argv[2]),atof(argv[3]));
 
   /*init rtree*/
   bgi::rtree< Value, bgi::rstar<16> > rtree;
@@ -48,7 +48,10 @@ int main(int argc, char *argv[])
   put_vector(mbr[1]);
   std::cout << "NN point id: " << NN_id << std::endl;
   std::cout << "NN point coordinates: ";
+  put_vector(points[NN_id_naive]);
+  std::cout << "MRM NN point coordinates: ";
   put_vector(points[NN_id]);
+
   std::cout << "MRM: cpu cost is " << mrmcost.get_cost(2) << " millisecond(s)" << std::endl;
   std::cout << "Nai: cpu cost is " << naivecost.get_cost(2) << " millisecond(s)" << std::endl;
 
