@@ -1,7 +1,7 @@
 /*2015-8-20 09:10 dyy*/
 
 #include "MRMann.hpp"
-#include "catch.h"
+#include "../commonTool/catch.h"
 #include "../commonTool/init_data.hpp"
 #include <iostream>
 

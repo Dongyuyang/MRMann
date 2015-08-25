@@ -118,8 +118,8 @@ int MRM_query(const std::vector<std::vector<double> > &points, std::vector<std::
     query_result = expand(mbr,rtree,0);
   }else{ /*shrink*/
     std::cout << "not empty! shrink" << std::endl;
-    query_result = shrink(mbr,rtree,query_result);
-    //query_result = expand(mbr,rtree,1);
+    //query_result = shrink(mbr,rtree,query_result);
+    query_result = expand(mbr,rtree,1);
   }
 
   std::cout << "naive size: " << query_result.size() << std::endl;
