@@ -12,7 +12,7 @@ typedef bg::model::point<float, 2, bg::cs::cartesian> Point;
 typedef bg::model::box<Point> box;
 typedef std::pair<Point, int> Value;
 
-void init_rtree(bgi::rtree< Value, bgi::rstar<16> > &rtree, const std::vector<std::vector<double> > &points)
+void init_rtree(bgi::rtree< Value, bgi::rstar<100> > &rtree, const std::vector<std::vector<double> > &points)
 {
   int count = 0;
   for(int i = 0; i < points.size();i++){
@@ -24,7 +24,7 @@ void init_rtree(bgi::rtree< Value, bgi::rstar<16> > &rtree, const std::vector<st
   }
 }
 
-std::vector<int> range_search(const bgi::rtree< Value, bgi::rstar<16> > &rtree, const std::vector<std::vector<double> > &mbr)
+std::vector<int> range_search(const bgi::rtree< Value, bgi::rstar<100> > &rtree, const std::vector<std::vector<double> > &mbr)
 {
   Point low,up;
   bg::set<0>(low, mbr[0][0]);

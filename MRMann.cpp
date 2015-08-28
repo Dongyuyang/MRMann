@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
   randinit(qs,2,atof(argv[2]),atof(argv[3]));
 
   /*init rtree*/
-  bgi::rtree< Value, bgi::rstar<16> > rtree;
+  bgi::rtree< Value, bgi::rstar<100> > rtree;
   init_rtree(rtree, points);
 
   CATCH mrmcost;

@@ -45,7 +45,7 @@ bool is_point_in_mbr(const std::vector<double> &p, const std::vector<std::vector
 }
 
 
-std::vector<int> expand(const std::vector<std::vector<double> > &mbr, bgi::rtree<Value, bgi::rstar<16> > &rtree, int counter)
+std::vector<int> expand(const std::vector<std::vector<double> > &mbr, bgi::rtree<Value, bgi::rstar<100> > &rtree, int counter)
 {
   int times = 1;
   std::vector<std::vector<double> > current_mbr = mbr;
@@ -77,7 +77,7 @@ static double get_edge_d(double a, double b, double c)
   return (c/a)*b;
 }
 
-std::vector<int> shrink(const std::vector<std::vector<double> > &mbr, bgi::rtree<Value, bgi::rstar<16> > &rtree, const std::vector<int> &query_result)
+std::vector<int> shrink(const std::vector<std::vector<double> > &mbr, bgi::rtree<Value, bgi::rstar<100> > &rtree, const std::vector<int> &query_result)
 {
   std::vector<int> result = query_result;
   std::vector<std::vector<double> > current_mbr = mbr;
@@ -105,7 +105,7 @@ std::vector<int> shrink(const std::vector<std::vector<double> > &mbr, bgi::rtree
   }
 }
 
-int MRM_query(const std::vector<std::vector<double> > &points, std::vector<std::vector<double> > qs, bgi::rtree<Value, bgi::rstar<16> > &rtree, int function)
+int MRM_query(const std::vector<std::vector<double> > &points, std::vector<std::vector<double> > qs, bgi::rtree<Value, bgi::rstar<100> > &rtree, int function)
 {
   //std::vector<std::vector<double> > mbr = get_square_mbr(qs);
   std::vector<std::vector<double> > mbr = get_mbr(qs);
